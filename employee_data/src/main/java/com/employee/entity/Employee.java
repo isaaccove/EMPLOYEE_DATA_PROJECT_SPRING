@@ -1,5 +1,6 @@
 package com.employee.entity;
-import java.util.Date;
+import java.sql.Date;
+
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -24,7 +25,7 @@ public class Employee {
 	@Column(name="lastname")
 	private String lastname;
 	
-	@Column(name="dateOfBirth")
+	@Column(name="date_of_Birth")
 	private Date dateOfBirth;
 	
 	@Column(name="email")
@@ -79,6 +80,12 @@ public class Employee {
 		this.dateOfBirth = dateOfBirth;
 		this.email = email;
 		this.phoneNUmber = phoneNUmber;
+	}
+	
+	
+
+	public Employee() {
+		super();
 	}
 
 	public void setEmail(String email) {

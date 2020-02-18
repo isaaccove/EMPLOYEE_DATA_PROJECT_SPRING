@@ -6,4 +6,5 @@ GRANT ALL PRIVILEGES ON employee_db.* TO 'employee_user'@'localhost';
 
 FLUSH PRIVILEGES;
 
+drop database employee_db;
 CREATE DATABASE employee_db;
