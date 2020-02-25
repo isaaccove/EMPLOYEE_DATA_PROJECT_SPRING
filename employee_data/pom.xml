@@ -4,8 +4,17 @@
     <groupId>com.employee</groupId>
     <artifactId>employee_parent</artifactId>
     <version>0.0.1-SNAPSHOT</version>
+    
   </parent>
+  
   <artifactId>employee_data</artifactId>
+  
+  <properties>
+  
+  <maven.compiler.source>12</maven.compiler.source>
+  <maven.compiler.target>12</maven.compiler.target>
+  
+  </properties>
   <name>Employee data_access</name>
   
   <dependencies>

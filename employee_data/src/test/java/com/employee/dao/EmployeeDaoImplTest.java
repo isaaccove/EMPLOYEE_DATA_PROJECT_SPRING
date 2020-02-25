@@ -16,6 +16,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -26,10 +29,15 @@ import com.employee.entity.Employee;
  * @author usere
  *
  */
-@Sql(scripts= {"classpath:/db/create-table.sql"})
+@Configuration
+@PropertySource("classpath:application.properties")
+@Sql(scripts= {"classpath:/db/create-table.sql", "classpath:/db/insert-employees.sql"})
 @ContextConfiguration("classpath:data-context.xml")
 @RunWith(SpringRunner.class)
 public class EmployeeDaoImplTest {
+	
+	@Autowired
+	private Environment env;
 	
 	
 	
@@ -53,11 +61,13 @@ public class EmployeeDaoImplTest {
 	@Test
 	public void dbConnectionTest() throws SQLException {
 		
-		String jdbcUrl = "jdbc:mysql://localhost:3306/employee_db?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true";
-		String user = "employee_user";
-		String password = "employee123";
-		String driver = "com.mysql.cj.jdbc.Driver";
 		
+		
+		String jdbcUrl = env.getProperty("test.jdbcUrl");
+		String user = env.getProperty("test.user");
+		String password = env.getProperty("test.password");
+		String driver = env.getProperty("test.driver");
+		System.out.println(jdbcUrl);
 		Connection dbCon = null;
 		
 		try {
@@ -99,6 +109,20 @@ public class EmployeeDaoImplTest {
 		
 		employeeDaoImpl.saveEmployee(existingEmployee);
 				
+	}
+	
+	@Test
+	public void getEmployeeByEmailTest() {
+		
+		assertThat(employeeDaoImpl).isNotNull();
+		
+		Employee savedEmployee = employeeDaoImpl.getByEmail("isaaccove@gmail.com");
+		
+		assertThat(savedEmployee).isNotNull();
+		assertThat(savedEmployee.getEmployeeId()).isEqualTo(1);
+		
+		System.out.println(savedEmployee);
+		
 	}
 
 }
